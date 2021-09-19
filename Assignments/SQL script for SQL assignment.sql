@@ -225,8 +225,6 @@ UPDATE accounts a #SELECT * From accounts a
 SET a.balance = (a.balance + 199.99)
 WHERE a.account_id = 900004;
 
-
-
 # Change Amanda Smith's last name to "Lastname"
 
 UPDATE customers c 
