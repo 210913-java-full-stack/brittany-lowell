@@ -186,7 +186,7 @@ WHERE name LIKE "%Smith%";
 
 # Get the name and address of any customer with less than $50 in an account. (No duplicates!)
 
-SELECT c.name, ad.state, a.balance
+SELECT c.name, CONCAT(ad.address, ", ", ad.city, ", ", ad.state, " ", ad.zip) as "Home Address", a.balance
 FROM address ad 
 JOIN customers c ON c.address_id = ad.address_id
 JOIN accounts_customers ac ON c.customer_id = ac.customer_id
@@ -205,7 +205,7 @@ WHERE state = "TX";
 
 # Add $100 gift to any accounts belonging to customers in New York
 
-UPDATE accounts a #SELECT * From accounts a
+UPDATE accounts a 
 JOIN accounts_customers ac ON ac.account_id = a.account_id 
 JOIN customers c ON c.customer_id = ac.customer_id
 JOIN address ad ON ad.address_id = c.address_id
@@ -214,16 +214,19 @@ WHERE ad.state = "NY";
 
 # Transfer $199.99 from Jason Smith to Amanda Smith
 
-UPDATE accounts a #SELECT a.balance, c.name From accounts a
+#SELECT * From accounts a
+UPDATE accounts a 
 JOIN accounts_customers ac ON ac.account_id = a.account_id 
-JOIN customers c ON c.customer_id = ac.customer_id
 SET a.balance = (a.balance - 199.99)
-WHERE c.name = "Jason Smith";
+WHERE a.account_id = 900002;
 
-UPDATE accounts a #SELECT * From accounts a
-
+#SELECT * From accounts a
+UPDATE accounts a 
+JOIN accounts_customers ac ON ac.account_id = a.account_id 
 SET a.balance = (a.balance + 199.99)
 WHERE a.account_id = 900004;
+
+
 
 # Change Amanda Smith's last name to "Lastname"
 
