@@ -21,7 +21,6 @@
 
 # IntelliJ
 out/
-target/
 resources/
 
 # Package Files #

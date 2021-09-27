@@ -1,4 +1,10 @@
-public interface CustomListInterface {
+package P0List;
+
+import java.util.Arrays;
+
+public interface CustomListInterface<E> {
+
+        void grow(int size);
 
         void add(E e);
 
@@ -13,5 +19,3 @@ public interface CustomListInterface {
         int contains(E e);
 
     }
-
-}
