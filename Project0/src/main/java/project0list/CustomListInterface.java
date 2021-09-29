@@ -1,10 +1,8 @@
-package P0List;
-
-import java.util.Arrays;
+package project0list;
 
 public interface CustomListInterface<E> {
 
-        void grow(int size);
+        E[] grow();
 
         void add(E e);
 
