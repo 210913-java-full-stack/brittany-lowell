@@ -1,6 +1,6 @@
 # Compiled class file
 *.class
-*.idea/
+*.properties
 
 # Log file
 *.log
@@ -22,6 +22,7 @@
 # IntelliJ
 out/
 resources/
+*.idea/
 
 # Package Files #
 *.nar
