@@ -1,4 +1,4 @@
-package screens;
+package menus;
 
 public class ShareAccount {
 

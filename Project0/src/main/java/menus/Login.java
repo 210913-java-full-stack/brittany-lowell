@@ -1,37 +1,40 @@
-package screens;
+package menus;
 
 import exceptions.InvalidConsoleResponse;
 
+import java.sql.Connection;
 import java.util.Scanner;
-/*
+/**
 This class contains the methods for successfully logging in and then displays the next menu.
-The only classes that are public are the constructor and the runLogin method.
 The method runLogin calls all the methods in this class to encapsulate the login process.
-Also, it helps decrease the size of the Driver class
  */
 public class Login {
     Scanner input;
+    Connection conn;
 
-    /*
-    Constructor takes in the Scanner object input and sets it equal to the input variable in this class.
-    I didn't want to keep creating a new Scanner object for the menus, so I am having the constructor take in
-    this variable so that I can use it in this class.
-     */
+    MainMenu mainMenu = new MainMenu();
+
     //Constructor for the Login class
-    public Login(Scanner input) {
-        this.input = input;
+    protected Login() {
+        this.input = mainMenu.getInput();
+        this.conn = mainMenu.getConn();
     }
-    //Method that calls all Login methods
+    /**
+    *Method that calls all Login methods.
+     */
     public void runLogin(){
         //get username from database
 
         //only prints the next menu if login is successful
-        printMenu(b);
+        loginMenu();
     }
 
-    //This method displays the second menu so that it can only be accessed if the user logs in successfully.
-    private void printMenu(boolean b){
-
+    /**
+    *This method displays the second menu so that it can only be accessed if the user
+     * logs in successfully.
+     */
+    private void loginMenu(){
+        //This while loop allows the app to stay in this menu until the user wants to go back to the main menu.
         boolean innerMenu = true;
         while(innerMenu) {
 
@@ -51,10 +54,10 @@ public class Login {
                         //call methods from MoveFunds
                         break;
                     case "4":
-                        innerMenu = false;
+                        innerMenu = false; //Exits out to the main menu
                         break;
                 }
-            } else {
+            } else { //This statement gives the user an error and then sends them back to the "Account menu"
                 try {
                     throw new InvalidConsoleResponse("This menu only accepts the responses: 1, 2, 3, or 4.");
                 } catch (InvalidConsoleResponse invalidConsoleResponse) {
