@@ -2,7 +2,7 @@ package project0list;
 
 import java.util.Arrays;
 
-public class BLArrayList<E> implements CustomListInterface{
+public class BLArrayList<E> implements CustomListInterface<E>{
     private int size; //size of the array
     public int len; //This variable allows the user to access size outside of this class
     private static final int s = 2; // Default length of the array
@@ -14,22 +14,21 @@ Both versions of the add() method would possibly need to increment. The grow() m
 the class
 */
     @Override
-    public Object[] grow() {
+    public void grow() {
         int newSize = size + s;
         a = Arrays.copyOf(a,newSize);
-        return a;
     }
 /*
 This method adds one element at the end of the array
  */
     @Override
-    public void add(Object o) {
+    public void add(E e) {
         int n = size; //n will always be 1 less than size
 //if the array is full, then call the grow() method and increase the size of the array
         if(size == a.length){
             grow();
         }
-        a[n] = o;
+        a[n] = e;
         size++;
         len = size; //Making sure that len always equals size
 
@@ -39,32 +38,33 @@ This method adds an element at a specific index and moves all of the other eleme
 Ex: a[1] becomes a[2]
  */
     @Override
-    public void add(Object o, int index) {
+    public void add(E e, int index) {
         if(size == a.length) {
             grow();
         }
-//       System.arraycopy is equal to the following statement:
-//        for(int i = index; i<size; i++){
-//            a[i+1] = a[i];
-//        }
+/*
+System.arraycopy is equal to the following statement:
+        for(int i = index; i<size; i++){
+            a[i+1] = a[i];
+       }
+ */
         if (size - index >= 0) System.arraycopy(a, index, a, index + 1, size - index);
-        a[index] = o;
+        a[index] = e;
         size++;
         len = size;
 
     }
 //This method gets the specified index and returns the element
     @Override
-    public Object get(int index) {
+    public E get(int index) {
         if(a == null){
-            String none = "This array is empty.";
-            return none;
+            throw new IndexOutOfBoundsException("This array is empty.");
         }
         if(index >= a.length || index < 0) {
             throw new IndexOutOfBoundsException(index + " is out of bounds.");
         }
-        Object o = a[index];
-        return o;
+        Object e = a[index];
+        return (E) e;
     }
 /*
 Removes the element at the specific index and moves everything to the left.
@@ -98,19 +98,19 @@ Moves the last index to the right and then removes it so that there are no dupli
     If it does not, then return -1.
      */
     @Override
-    public int contains(Object o) {
+    public int contains(E e) {
         if(a == null) {
             System.out.println("The array is empty.");
             return -1;
         }
 
         for(int i = 0; i<size; i++){
-            if(a[i] == o){
-                System.out.println("The index of " + o + " is " + i + ".");
+            if(a[i] == e){
+                System.out.println("The index of " + e + " is " + i + ".");
                 return i;
             }
         }
-        System.out.println(o + " is not present in the array");
+        System.out.println(e + " is not present in the array");
         return -1;
     }
 }

@@ -2,7 +2,7 @@ package project0list;
 
 public interface CustomListInterface<E> {
 
-        E[] grow();
+        void grow();
 
         void add(E e);
 

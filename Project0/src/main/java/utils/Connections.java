@@ -1,3 +1,5 @@
+package utils;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,7 +18,7 @@ public class Connections {
 
     }
     /*
-    This method gets and returns the connection.
+    This method gets and returns the connection. Design pattern used: Singleton Pattern.
      */
     public static Connection getConnection(){
         //This method will throw two exceptions, so I put this in a try catch block to deal with them here.
