@@ -1,4 +1,4 @@
-package pojos;
+package models;
 
 /**
  * This model class allows the user to access the information stored in the users table.
@@ -13,6 +13,10 @@ public class Users {
     private StringBuffer password;
 
     public Users() {
+    }
+
+    public Users(int id) {
+        this.id = id;
     }
 
     public Users(int id, StringBuffer username, StringBuffer password) {

@@ -1,4 +1,4 @@
-package pojos;
+package models;
 /**
  * This model class allows the user to access the information stored in the accounts table.
  * The combination of the public methods and the private variables restricts the access the user has to these
@@ -10,6 +10,10 @@ public class Accounts {
     private double balance;
 
     public Accounts() {
+    }
+
+    public Accounts(int id) {
+        this.id = id;
     }
 
     public Accounts(int id, String accountType) {

@@ -9,14 +9,16 @@ public class Driver {
     public static void main(String[] args){
         MainMenu mainMenu = new MainMenu();
 
-        //Stores the connection in a new object called conn.
-
         /*
         To take user input in as a StringBuffer, use the following lines of code.
         StringBuffer s = new StringBuffer();
         s.append(this.input.nextLine()); <= appends the console input to a StringBuffer
          */
 
+        /**
+          This is the main loop. It will keep running until the variable called running, in the MainMenu class, is set
+         equal to false. This occurs when the user chooses option 3 in the Main menu.
+         */
         while(mainMenu.isRunning()) {
             mainMenu.viewMainMenu();
         }

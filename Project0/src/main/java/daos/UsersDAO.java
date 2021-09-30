@@ -1,6 +1,6 @@
 package daos;
 
-import pojos.Users;
+import models.Users;
 import project0list.BLArrayList;
 
 import java.sql.Connection;
