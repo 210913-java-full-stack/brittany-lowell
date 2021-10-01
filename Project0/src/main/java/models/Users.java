@@ -9,8 +9,8 @@ public class Users {
     private int id;
     private String firstName;
     private String lastName;
-    private StringBuffer username;
-    private StringBuffer password;
+    private StringBuffer username = new StringBuffer();
+    private StringBuffer password = new StringBuffer();
 
     public Users() {
     }
@@ -19,18 +19,24 @@ public class Users {
         this.id = id;
     }
 
-    public Users(int id, StringBuffer username, StringBuffer password) {
+    public Users(int id, String username, String password) {
+        /*
+        Convert a String to a StringBuffer using the append() method.
+        You have to create a new StringBuffer object first before using the following line of code.
+        ie: stringBuffer.append(string);
+         */
         this.id = id;
-        this.username = username;
-        this.password = password;
+        this.username.append(username);
+        this.password.append(password);
     }
 
-    public Users(int id, String firstName, String lastName, StringBuffer username, StringBuffer password) {
+    public Users(int id, String firstName, String lastName, String username, String password) {
+
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
-        this.password = password;
+        this.username.append(username);
+        this.password.append(password);
     }
 
     public int getId() {
@@ -57,16 +63,21 @@ public class Users {
         this.lastName = lastName;
     }
 
-    public StringBuffer getUsername() {
-        return username;
+    public String getUsername() {
+                /*
+        Convert a StringBuffer to String using toString() method.
+        You have to create a new StringBuffer object first before using the following line of code.
+        String str = stringBuffer.toString();
+         */
+        return this.username.toString();
     }
 
     public void setUsername(StringBuffer username) {
         this.username = username;
     }
 
-    public StringBuffer getPassword() {
-        return password;
+    public String getPassword() {
+        return this.password.toString();
     }
 
     public void setPassword(StringBuffer password) {

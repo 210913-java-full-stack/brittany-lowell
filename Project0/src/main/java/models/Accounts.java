@@ -16,9 +16,9 @@ public class Accounts {
         this.id = id;
     }
 
-    public Accounts(int id, String accountType) {
+    public Accounts(int id, double balance) {
         this.id = id;
-        this.accountType = accountType;
+        this.balance = balance;
     }
 
     public Accounts(int id, String accountType, double balance) {
@@ -28,6 +28,7 @@ public class Accounts {
     }
 
     public int getId() {
+
         return id;
     }
 

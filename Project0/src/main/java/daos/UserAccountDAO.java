@@ -1,12 +1,12 @@
 package daos;
 
-import models.UserAccount;
+import models.UserAccounts;
 import project0list.BLArrayList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class UserAccountDAO implements DAOInterface<UserAccount> {
+public class UserAccountDAO implements DAOInterface<UserAccounts> {
     private Connection conn;
 
     public UserAccountDAO(Connection conn) {
@@ -14,17 +14,17 @@ public class UserAccountDAO implements DAOInterface<UserAccount> {
     }
 
     @Override
-    public void save(UserAccount userAccount) throws SQLException {
+    public void save(UserAccounts userAccounts) throws SQLException {
 
     }
 
     @Override
-    public UserAccount getItem(UserAccount userAccount) throws SQLException {
+    public UserAccounts getItem(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public BLArrayList<UserAccount> getAllItems() throws SQLException {
+    public BLArrayList<UserAccounts> getAllItems() throws SQLException {
         return null;
     }
 }

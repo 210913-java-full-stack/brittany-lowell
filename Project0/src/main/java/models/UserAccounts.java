@@ -4,24 +4,24 @@ package models;
  * The combination of the public methods and the private variables restricts the access the user has to these
  * variables. They have to go through the getter and setter methods to interact with these variables.
  */
-public class UserAccount {
+public class UserAccounts {
     private int id;
     private int account_id;
     private int user_id;
 
-    public UserAccount() {
+    public UserAccounts() {
     }
 
-    public UserAccount(int id) {
+    public UserAccounts(int id) {
         this.id = id;
     }
 
-    public UserAccount(int id, int account_id) {
+    public UserAccounts(int id, int account_id) {
         this.id = id;
         this.account_id = account_id;
     }
 
-    public UserAccount(int id, int account_id, int user_id) {
+    public UserAccounts(int id, int account_id, int user_id) {
         this.id = id;
         this.account_id = account_id;
         this.user_id = user_id;

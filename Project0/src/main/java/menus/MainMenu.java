@@ -4,6 +4,7 @@ import exceptions.InvalidConsoleResponse;
 import utils.Connections;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -42,7 +43,13 @@ public class MainMenu {
                     //go to the register screen
                     return;
                 case "3":
+                    //Exiting the app
                     setRunning(false);
+                    try {
+                        conn.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                     break; //Probably not necessary, but I don't feel comfortable leaving this open to fall through.
             }
         } else {
