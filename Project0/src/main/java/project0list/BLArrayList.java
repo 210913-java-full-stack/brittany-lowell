@@ -113,4 +113,6 @@ Moves the last index to the right and then removes it so that there are no dupli
         System.out.println(e + " is not present in the array");
         return -1;
     }
+
+
 }

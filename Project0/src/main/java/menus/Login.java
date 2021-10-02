@@ -1,6 +1,7 @@
 package menus;
 
 import exceptions.InvalidConsoleResponse;
+import utils.Username;
 
 import java.sql.Connection;
 import java.util.Scanner;
@@ -11,29 +12,36 @@ The method runLogin calls all the methods in this class to encapsulate the login
 public class Login {
     Scanner input;
     Connection conn;
-
+    String inputString;
     MainMenu mainMenu = new MainMenu();
+
 
     //Constructor for the Login class
     protected Login() {
-        this.input = mainMenu.getInput();
+        this.input = mainMenu.getScanner();
         this.conn = mainMenu.getConn();
     }
+    Username username = new Username();
     /**
     *Method that calls all Login methods.
      */
     public void runLogin(){
         //get username from database
-
+        System.out.println("Please enter your username:\n" +
+                        "NOTE: Usernames cannot contain any special characters and must be " +
+                        "5 to 20 characters long.");
+        inputString = this.input.nextLine();
+        int userID = username.getUserID(inputString);
+        System.out.println(userID);
         //only prints the next menu if login is successful
-        loginMenu();
+        postLoginMenu();
     }
 
     /**
     *This method displays the second menu so that it can only be accessed if the user
      * logs in successfully.
      */
-    private void loginMenu(){
+    private void postLoginMenu(){
         //This while loop allows the app to stay in this menu until the user wants to go back to the main menu.
         boolean innerMenu = true;
         while(innerMenu) {

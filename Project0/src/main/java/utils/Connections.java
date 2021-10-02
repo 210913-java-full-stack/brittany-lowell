@@ -37,7 +37,6 @@ public class Connections {
                         props.getProperty("databaseName") + "?user=" +
                         props.getProperty("user") + "&password=" +
                         props.getProperty("password");
-
                 //Saving connection info
                 conn = DriverManager.getConnection(connString);
             } catch (IOException | SQLException e) {

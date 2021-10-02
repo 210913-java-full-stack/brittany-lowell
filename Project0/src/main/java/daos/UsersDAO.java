@@ -1,5 +1,7 @@
 package daos;
 
+import jdk.jfr.internal.tool.Main;
+import menus.MainMenu;
 import models.Accounts;
 import models.Users;
 import project0list.BLArrayList;
@@ -8,9 +10,10 @@ import java.sql.*;
 
 public class UsersDAO implements DAOInterface<Users>{
     private Connection conn;
+    MainMenu menu = new MainMenu();
 
-    public UsersDAO(Connection conn) {
-        this.conn = conn;
+    public UsersDAO() {
+        this.conn = menu.getConn();
     }
 
    /*
@@ -27,7 +30,7 @@ public class UsersDAO implements DAOInterface<Users>{
     public void save(Users users) {
         String sql = "SELECT * FROM users WHERE user_id = ?";//Prepares the string with the necessary SQL code.
         try {
-            PreparedStatement statement = conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
+            PreparedStatement statement = this.conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
             statement.setInt(1, users.getId()); //Setting up the sql statement with the specified parameters.
 
             ResultSet results = statement.executeQuery();
@@ -37,7 +40,7 @@ public class UsersDAO implements DAOInterface<Users>{
                 //Prepares the string with the necessary SQL code.
                 String updateStatement = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
                 //Prepares the statement to be sent to the database.
-                PreparedStatement preparedUpdateStatement = conn.prepareStatement(updateStatement);
+                PreparedStatement preparedUpdateStatement = this.conn.prepareStatement(updateStatement);
                 //The next three lines set up the sql statement with the specified parameters.
                 preparedUpdateStatement.setString(1, users.getUsername());
                 preparedUpdateStatement.setString(2, users.getPassword());
@@ -50,7 +53,7 @@ public class UsersDAO implements DAOInterface<Users>{
                 //Prepares the string with the necessary SQL code.
                 String insertStatement = "INSERT INTO users VALUES (?, ?, ?, ?, ?)";
                 //Preparing the statement to be sent to the database and adding the specified parameters
-                PreparedStatement preparedInsertStatement = conn.prepareStatement(insertStatement);
+                PreparedStatement preparedInsertStatement = this.conn.prepareStatement(insertStatement);
                 preparedInsertStatement.setInt(1, users.getId());
                 preparedInsertStatement.setString(2, users.getFirstName());
                 preparedInsertStatement.setString(3, users.getLastName());
@@ -67,11 +70,16 @@ public class UsersDAO implements DAOInterface<Users>{
         }
     }
 
+    /**
+     * This method gets one row where user_id is equal to userId.
+     * To obtain the desired row input the user_id associate with that row when you call getItem.
+     * @return This method returns the row as an object of Users.
+     */
     @Override
     public Users getItem(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         try {
-            PreparedStatement statement = conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
+            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
             statement.setInt(1, userId);
 
             ResultSet results = statement.executeQuery();
@@ -92,7 +100,11 @@ public class UsersDAO implements DAOInterface<Users>{
             return null;
         }
     }
-
+    /**
+     *This method gets the entire users table and instantiates it in a BLArrayList object containing
+     * Users objects for each row in the table.
+     * @return Returns the array list containing the Users objects.
+     */
     @Override
     public BLArrayList<Users> getAllItems() {
         String sql = "SELECT * FROM users";
@@ -102,7 +114,7 @@ public class UsersDAO implements DAOInterface<Users>{
             Do not need to prepare a statement if there are no parameters to enter. You just need to create a
             SQL statement.
              */
-            Statement statement = conn.createStatement();
+            Statement statement = this.conn.createStatement();
 
             ResultSet results = statement.executeQuery(sql);
 
@@ -110,6 +122,7 @@ public class UsersDAO implements DAOInterface<Users>{
                 Users users = new Users(results.getInt("user_id"), results.getString("first_name"),
                         results.getString("last_name"), results.getString("username"),
                         results.getString("password"));
+                resultsArrayList.add(users);
             }
 
             return resultsArrayList;
@@ -119,12 +132,18 @@ public class UsersDAO implements DAOInterface<Users>{
         }
     }
 
-    public ResultSet getUserId(){
+    /**
+     *This method gets the user_id from the Users model and checks the database for the largest user_id in the table.
+     * @return Returns the largest user_id currently in the table.
+     */
+    public Integer getUserId(Users user){
         String sql = "SELECT MAX(user_id) FROM users";
-        ResultSet maxUserId = null;
+        int maxUserId;
         try {
-            Statement statement = conn.createStatement();
-            maxUserId = statement.executeQuery(sql);
+            Statement statement = this.conn.createStatement();
+            ResultSet results = statement.executeQuery(sql);
+            results.next();
+            maxUserId = results.getInt("user_id");
             return maxUserId;
         } catch (SQLException e) {
             e.printStackTrace();

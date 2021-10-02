@@ -13,4 +13,8 @@ public class Register {
     public Register() {
     }
 
+    public void runRegister(){
+
+    }
+
 }

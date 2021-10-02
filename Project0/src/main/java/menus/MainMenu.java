@@ -13,20 +13,25 @@ import java.util.Scanner;
  */
 public class MainMenu {
     private boolean running;
-    private Connection conn;
-    private Scanner input;
-
+    Connection conn = Connections.getConnection(); //Created the connection in this class instead of the Driver class.
+    Scanner input = new Scanner(System.in); //Scanner object bound to System.in, the console input
     public MainMenu() {
         running = true;
-        conn = Connections.getConnection(); //Created the connection in this class instead of the Driver class.
-        input = new Scanner(System.in); //Scanner object bound to System.in, the console input
+    }
+
+    public Connection getConn(){
+        return conn;
+    }
+
+    public Scanner getScanner(){
+        return input;
     }
 
     /*
     I did not want to make another class, so I am calling methods from the other classes based on their responses in
     this switch statement. This was how I chose to avoid getting stuck in an infinite loop.
      */
-    public void viewMainMenu(){
+    public void viewMainMenu() {
         System.out.println("Homepage\nPlease choose an option below:\n" +
                 "1) Login\n2) Register\n3) Exit App");
         String inNum = input.nextLine(); //Takes the user input on the next line and stores it in inNum.
@@ -62,6 +67,7 @@ public class MainMenu {
         }
 
     }
+
     //Boolean version of a getter
     public boolean isRunning() {
         return running;
@@ -69,14 +75,5 @@ public class MainMenu {
 
     public void setRunning(boolean running) {
         this.running = running;
-    }
-
-    //This method will allow the other menu classes to access the connection object.
-    public Connection getConn() {
-        return conn;
-    }
-    //This method will allow the other menu classes to access the scanner object.
-    public Scanner getInput() {
-        return input;
     }
 }

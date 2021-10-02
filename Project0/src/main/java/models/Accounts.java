@@ -1,4 +1,7 @@
 package models;
+
+import java.text.NumberFormat;
+
 /**
  * This model class allows the user to access the information stored in the accounts table.
  * The combination of the public methods and the private variables restricts the access the user has to these
@@ -8,6 +11,7 @@ public class Accounts {
     private int id;
     private String accountType;
     private double balance;
+    private StringBuffer formattedBalance;
 
     public Accounts() {
     }
@@ -18,13 +22,17 @@ public class Accounts {
 
     public Accounts(int id, double balance) {
         this.id = id;
-        this.balance = balance;
+        formattedBalance = formatBalance(balance);
+        //May need to go back to this if formatting the balance here does not work.
+        //this.balance = balance;
     }
 
     public Accounts(int id, String accountType, double balance) {
         this.id = id;
         this.accountType = accountType;
-        this.balance = balance;
+        formattedBalance = formatBalance(balance);
+        //May need to go back to this if formatting the balance here does not work.
+        //this.balance = balance;
     }
 
     public int getId() {
@@ -51,4 +59,21 @@ public class Accounts {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    public StringBuffer formatBalance(double balance) {
+        /*
+        The NumberFormat class contains methods that allow you to add commas to a number. NumberFormat uses a grouping
+        size of 3 by default starting to the right of the decimal place.
+         */
+        StringBuffer displayBalance = new StringBuffer(); //Creating a StringBuffer
+        displayBalance.append("$"); //Appending the $ at the beginning of the StringBuffer.
+        //Gets the instance of the NumberFormat class by calling NumberFormat.getInstance().
+        NumberFormat currencyFormat = NumberFormat.getInstance();
+        //Enables grouping which is set to 3 by default.
+        currencyFormat.setGroupingUsed(true);
+        //Append the formatted balance to the displayBalance StringBuffer.
+        displayBalance.append(currencyFormat.format(balance));
+        return displayBalance;
+    }
 }
+

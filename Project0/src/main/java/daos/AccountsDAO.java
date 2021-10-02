@@ -1,5 +1,6 @@
 package daos;
 
+import menus.MainMenu;
 import models.Accounts;
 import project0list.BLArrayList;
 
@@ -7,9 +8,10 @@ import java.sql.*;
 
 public class AccountsDAO implements DAOInterface<Accounts>{
     private Connection conn;
+    MainMenu menu = new MainMenu();
 
     public AccountsDAO(Connection conn) {
-        this.conn = conn;
+        this.conn = menu.getConn();
     }
 
 
@@ -27,7 +29,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
     public void save(Accounts accounts) {
         String sql = "SELECT * FROM accounts WHERE accounts_id = ?";//Prepares the string with the necessary SQL code.
         try {
-            PreparedStatement statement = conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
+            PreparedStatement statement = this.conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
             statement.setInt(1, accounts.getId()); //Setting up the sql statement with the specified parameters.
 
             ResultSet results = statement.executeQuery();
@@ -37,7 +39,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
                 //Prepares the string with the necessary SQL code.
                 String updateStatement = "UPDATE accounts SET balance = ? WHERE account_id = ?";
                 //Prepares the statement to be sent to the database.
-                PreparedStatement preparedUpdateStatement = conn.prepareStatement(updateStatement);
+                PreparedStatement preparedUpdateStatement = this.conn.prepareStatement(updateStatement);
                 //The next three lines set up the sql statement with the specified parameters.
                 preparedUpdateStatement.setDouble(1,accounts.getBalance());
                 preparedUpdateStatement.setInt(2, accounts.getId());
@@ -49,7 +51,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
                 //Prepares the string with the necessary SQL code.
                 String insertStatement = "INSERT INTO accounts VALUES (?, ?, ?)";
                 //Preparing the statement to be sent to the database and adding the specified parameters
-                PreparedStatement preparedInsertStatement = conn.prepareStatement(insertStatement);
+                PreparedStatement preparedInsertStatement = this.conn.prepareStatement(insertStatement);
                 preparedInsertStatement.setInt(1, accounts.getId());
                 preparedInsertStatement.setString(2, accounts.getAccountType());
                 preparedInsertStatement.setDouble(3, accounts.getBalance());
@@ -63,12 +65,16 @@ public class AccountsDAO implements DAOInterface<Accounts>{
             throwables.printStackTrace();
         }
     }
-
+    /**
+     * This method gets one row where account_id is equal to accountId.
+     * To obtain the desired row input the account_id associate with that row when you call getItem.
+     * @return This method instantiates an Accounts object and initializes it with data in this row.
+     */
     @Override
     public Accounts getItem(int accountId) {
         String sql = "SELECT * FROM accounts WHERE account_id = ?";
         try {
-            PreparedStatement statement = conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
+            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
             statement.setInt(1, accountId);
 
             ResultSet results = statement.executeQuery();
@@ -89,6 +95,11 @@ public class AccountsDAO implements DAOInterface<Accounts>{
         }
     }
 
+    /**
+     *This method gets the entire accounts table and instantiates it in a BLArrayList object containing
+     * Accounts objects for each row in the table.
+     * @return Returns the array list containing the Accounts objects.
+     */
     @Override
     public BLArrayList<Accounts> getAllItems() {
         String sql = "SELECT * FROM accounts";
@@ -98,13 +109,14 @@ public class AccountsDAO implements DAOInterface<Accounts>{
             Do not need to prepare a statement if there are no parameters to enter. You just need to create a
             SQL statement.
              */
-            Statement statement = conn.createStatement();
+            Statement statement = this.conn.createStatement();
 
             ResultSet results = statement.executeQuery(sql);
 
             while(results.next()) {
                 Accounts accounts = new Accounts(results.getInt("account_id"),
                         results.getString("account_type"), results.getDouble("balance"));
+                resultsArrayList.add(accounts);
             }
 
             return resultsArrayList;
@@ -114,12 +126,18 @@ public class AccountsDAO implements DAOInterface<Accounts>{
         }
     }
 
-    public ResultSet getAccountId(){
+    /**
+     *This method gets the account_id from the Accounts model and checks the database for the largest account_id in the table.
+     * @return Returns the largest account_id currently in the table.
+     */
+    public Integer getAccountId(Accounts accounts){
         String sql = "SELECT MAX(account_id) FROM accounts";
-        ResultSet maxAccountId = null;
+        int maxAccountId;
         try {
-            Statement statement = conn.createStatement();
-            maxAccountId = statement.executeQuery(sql);
+            Statement statement = this.conn.createStatement();
+            ResultSet results = statement.executeQuery(sql);
+            results.next();
+            maxAccountId = results.getInt("account_id");
             return maxAccountId;
         } catch (SQLException e) {
             e.printStackTrace();

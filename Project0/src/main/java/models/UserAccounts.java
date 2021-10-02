@@ -1,4 +1,7 @@
 package models;
+
+import daos.AccountsDAO;
+
 /**
  * This model class allows the user to access the information stored in the user_account table.
  * The combination of the public methods and the private variables restricts the access the user has to these
