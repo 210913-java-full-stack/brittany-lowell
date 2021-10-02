@@ -85,10 +85,10 @@ Moves the last index to the right and then removes it so that there are no dupli
         len = size;
     }
 
-    //Removes all of the elements in the array
+    //Clears the array and creates a new array with the default size
     @Override
     public void clear() {
-        a = null;
+        a = new Object[s];
         size = 0;
         len = 0;
     }
@@ -113,4 +113,6 @@ Moves the last index to the right and then removes it so that there are no dupli
         System.out.println(e + " is not present in the array");
         return -1;
     }
+
+
 }

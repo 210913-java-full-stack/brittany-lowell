@@ -1,5 +1,7 @@
 package daos;
 
+import project0list.BLArrayList;
+
 import java.sql.SQLException;
 
 /*
@@ -15,6 +17,8 @@ public interface DAOInterface<E> {
 
     //Read
     //Method that queries data from the database and fills the empty model object.
-    E getItem(E e) throws SQLException;
+    E getItem(int id) throws SQLException;
+
+    BLArrayList<E> getAllItems() throws SQLException;
 
 }
