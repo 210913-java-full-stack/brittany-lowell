@@ -12,7 +12,6 @@ The method runLogin calls all the methods in this class to encapsulate the login
 public class Login {
     Scanner input;
     Connection conn;
-    String inputString;
     MainMenu mainMenu = new MainMenu();
 
 
@@ -26,13 +25,15 @@ public class Login {
     *Method that calls all Login methods.
      */
     public void runLogin(){
-        //get username from database
-        System.out.println("Please enter your username:\n" +
-                        "NOTE: Usernames cannot contain any special characters and must be " +
-                        "5 to 20 characters long.");
-        inputString = this.input.nextLine();
-        int userID = username.getUserID(inputString);
+        //Username
+        System.out.println("Please enter your username:");
+        String usernameInput = this.input.nextLine();
+        int userID = username.getUserID(usernameInput);
         System.out.println(userID);
+
+        //Password
+        System.out.println("Please enter your password.");
+        String passwordInput = this.input.nextLine();
         //only prints the next menu if login is successful
         postLoginMenu();
     }

@@ -35,7 +35,7 @@ public class Username {
         this.conn = menu.getConn();
     }
 
-    public int getUserID(String string){
+    public int getUserID(String string) {
         usernameValid(string);
         return usernameInDatabase();
     }
@@ -43,23 +43,25 @@ public class Username {
     /**
      * This method gets the user input and checks if: The username is between 5 and 20 characters long; and if the
      * username does not contain any special characters.
+     *
      * @return If the username is valid, then this method will return a StringBuffer containing the user input.
      */
-    private void usernameValid(String inputString){
+    private void usernameValid(String inputString) {
 
         //Checks if inputted username is a valid username
-            try {
-                boolean check = checkUsername(inputString);
-            } catch (UserNameIsNotValid userNameIsNotValid) {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.viewMainMenu();
-                //userNameIsNotValid.printStackTrace();
+        try {
+            boolean check = checkName(inputString, "username");
+        } catch (UserNameIsNotValid userNameIsNotValid) {
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.viewMainMenu();
+            //userNameIsNotValid.printStackTrace();
         }
         username.append(inputString);
     }
 
     /**
      * This method checks if the username is in the database.
+     *
      * @return Returns the index associated with the username
      */
     private int usernameInDatabase() {
@@ -86,25 +88,33 @@ public class Username {
     }
 
 
-        /**
+    /**
      * This method checks if the username contains any special characters and if it is between 5 and 20 characters long.
+     *
      * @return Returns true if the username matches the requirements (5-20 characters and no special characters).
      */
-    private boolean checkUsername(String inputString) throws UserNameIsNotValid {
-
-        if(inputString.length() < 5 || inputString.length() > 20 ) {
-            throw new UserNameIsNotValid(inputString.length());
-        } else {
-            byte[] bytes = inputString.getBytes(StandardCharsets.US_ASCII);
-            for(int i = 0; i < bytes.length; i++){
-                if(bytes[i] >= 32 && bytes[i] <= 47){
-                    throw new UserNameIsNotValid(true);
-                }
+    private boolean checkName(String inputString, String typeOfName) throws UserNameIsNotValid {
+        if (typeOfName.equals("username")) {
+            if (inputString.length() < 5 || inputString.length() > 20) {
+                throw new UserNameIsNotValid(inputString.length());
             }
-            return true;
+        } else if (typeOfName.equals("first name") || typeOfName.equals("last name")) {
+            if (inputString.length() < 3 || inputString.length() > 30) {
+                throw new UserNameIsNotValid(inputString.length());
+            }
+            }
+
+        byte[] bytes = inputString.getBytes(StandardCharsets.US_ASCII);
+        /**
+         * System print here!!!!
+         */
+        System.out.println("Nested if statements work");
+
+        for (int i = 0; i < bytes.length; i++) {
+            if (bytes[i] >= 32 && bytes[i] <= 47) {
+                throw new UserNameIsNotValid(true);
+            }
         }
-
+        return true;
     }
-
-
 }
