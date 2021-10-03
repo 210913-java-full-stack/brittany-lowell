@@ -2,7 +2,6 @@ package daos;
 
 import menus.MainMenu;
 import models.UserAccounts;
-import models.Users;
 import project0list.BLArrayList;
 
 import java.sql.*;
@@ -11,7 +10,7 @@ public class UserAccountDAO implements DAOInterface<UserAccounts>{
     private Connection conn;
     MainMenu menu = new MainMenu();
 
-    public UserAccountDAO(Connection conn) {
+    public UserAccountDAO() {
         this.conn = menu.getConn();
     }
 
@@ -26,7 +25,7 @@ public class UserAccountDAO implements DAOInterface<UserAccounts>{
      * will UPDATE that row. If it does not exist, this method will INSERT this row into the database.
      */
     @Override
-    public void save(UserAccounts userAccounts) throws SQLException {
+    public void save(UserAccounts userAccounts) {
         String sql = "SELECT * FROM user_accounts WHERE junction_id = ?";//Prepares the string with the necessary SQL code.
         try {
             PreparedStatement statement = this.conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
@@ -64,10 +63,9 @@ public class UserAccountDAO implements DAOInterface<UserAccounts>{
                 ResultSet resultset = preparedInsertStatement.getGeneratedKeys();
 
                 resultset.next();
-                userAccounts.setId(results.getInt("junction_id"));
+                userAccounts.setId(resultset.getInt("junction_id"));
                 //Can also identify the column by index 1.
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

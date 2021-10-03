@@ -64,7 +64,6 @@ public class UsersDAO implements DAOInterface<Users>{
                 //user_id is set in the UserAccountDAO class
                 preparedInsertStatement.executeUpdate();
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -136,14 +135,14 @@ public class UsersDAO implements DAOInterface<Users>{
      *This method gets the user_id from the Users model and checks the database for the largest user_id in the table.
      * @return Returns the largest user_id currently in the table.
      */
-    public Integer getUserId(Users user){
+    public Integer getUserId(){
         String sql = "SELECT MAX(user_id) FROM users";
         int maxUserId;
         try {
             Statement statement = this.conn.createStatement();
             ResultSet results = statement.executeQuery(sql);
             results.next();
-            maxUserId = results.getInt("user_id");
+            maxUserId = results.getInt(1);
             return maxUserId;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -46,6 +46,8 @@ public class MainMenu {
                     return;
                 case "2":
                     //go to the register screen
+                    Register register = new Register();
+                    register.runRegister();
                     return;
                 case "3":
                     //Exiting the app

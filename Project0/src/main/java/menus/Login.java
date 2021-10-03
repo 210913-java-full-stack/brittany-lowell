@@ -1,6 +1,7 @@
 package menus;
 
 import exceptions.InvalidConsoleResponse;
+import utils.Password;
 import utils.Username;
 
 import java.sql.Connection;
@@ -12,30 +13,42 @@ The method runLogin calls all the methods in this class to encapsulate the login
 public class Login {
     Scanner input;
     Connection conn;
-    String inputString;
     MainMenu mainMenu = new MainMenu();
 
 
     //Constructor for the Login class
-    protected Login() {
+    public Login() {
         this.input = mainMenu.getScanner();
         this.conn = mainMenu.getConn();
     }
-    Username username = new Username();
     /**
     *Method that calls all Login methods.
      */
     public void runLogin(){
-        //get username from database
-        System.out.println("Please enter your username:\n" +
-                        "NOTE: Usernames cannot contain any special characters and must be " +
-                        "5 to 20 characters long.");
-        inputString = this.input.nextLine();
-        int userID = username.getUserID(inputString);
-        System.out.println(userID);
-        //only prints the next menu if login is successful
-        postLoginMenu();
+        //Username
+        System.out.println("Please enter your username:");
+        String usernameInput = this.input.nextLine();
+        Username username = new Username(usernameInput);
+        int userID = username.getUserID();
+        if(userID == -1){
+            return;
+        }
+        //Password
+        System.out.println("Please enter your password.");
+        String passwordInput = this.input.nextLine();
+        Password password = new Password(passwordInput,userID);
+        boolean match = password.verifyPassword();
+        if(match) {
+            //only prints the next menu if login is successful
+            postLoginMenu();
+        } else {
+            System.out.println("The inputted username and password do not match!\nPlease chose the Login option " +
+                    "if you wish to reenter your username and password.\nIf you don't have an account, then please" +
+                    "register first and then login. Thank you!");
+        }
     }
+
+
 
     /**
     *This method displays the second menu so that it can only be accessed if the user
