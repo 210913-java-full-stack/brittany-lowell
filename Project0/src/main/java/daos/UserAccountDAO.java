@@ -6,7 +6,7 @@ import project0list.BLArrayList;
 
 import java.sql.*;
 
-public class UserAccountDAO implements DAOInterface<UserAccounts>{
+public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts>{
     private Connection conn;
     MainMenu menu = new MainMenu();
 
@@ -14,7 +14,8 @@ public class UserAccountDAO implements DAOInterface<UserAccounts>{
         this.conn = menu.getConn();
     }
 
-   /*
+
+    /*
        First we need to use a SQL SELECT statement to get the row that we are looking for using the
        PRIMARY KEY of the table. If id = 1 and the table is empty, then this method will INSERT the first row since
        it is guarantied that the item is not already in the table.
@@ -75,24 +76,24 @@ public class UserAccountDAO implements DAOInterface<UserAccounts>{
      * To obtain the desired row input the junction_id associate with that row when you call getItem.
      * @return This method returns the row as an object of UserAccounts.
      */
-    @Override
-    public UserAccounts getItem(int junctionId) {
-        String sql = "SELECT * FROM user_accounts WHERE junction_id = ?";
+
+    public BLArrayList<UserAccounts> getItem(int userId) {
+        String sql = "SELECT account_id FROM user_accounts WHERE user_id = ?";
+        BLArrayList<UserAccounts> resultsArrayList = new BLArrayList<>();
         try {
             PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
-            statement.setInt(1, junctionId);
+            statement.setInt(1, userId);
 
             ResultSet results = statement.executeQuery();
             /*
             If the executeQuery was successful, the if, then, else block calls the UserAccounts constructor and
             saves the information in a Java friendly format.
              */
-            if(results.next()){
-                return new UserAccounts(results.getInt("junction_id"),
-                        results.getInt("user_id"), results.getInt("account_id"));
-            } else {
-                return null;
+            while(results.next()) {
+                UserAccounts userAccounts = new UserAccounts(results.getInt("account_id"));
+                resultsArrayList.add(userAccounts);
             }
+            return resultsArrayList;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

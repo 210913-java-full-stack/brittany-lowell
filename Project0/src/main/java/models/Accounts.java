@@ -22,7 +22,7 @@ public class Accounts {
 
     public Accounts(int id, double balance) {
         this.id = id;
-        formattedBalance = formatBalance(balance);
+        this.balance = balance;
         //May need to go back to this if formatting the balance here does not work.
         //this.balance = balance;
     }
@@ -30,7 +30,7 @@ public class Accounts {
     public Accounts(int id, String accountType, double balance) {
         this.id = id;
         this.accountType = accountType;
-        formattedBalance = formatBalance(balance);
+        this.balance = balance;
         //May need to go back to this if formatting the balance here does not work.
         //this.balance = balance;
     }

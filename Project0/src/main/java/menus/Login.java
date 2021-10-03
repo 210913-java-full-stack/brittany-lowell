@@ -1,5 +1,6 @@
 package menus;
 
+import accounts.DisplayAccounts;
 import exceptions.InvalidConsoleResponse;
 import utils.Password;
 import utils.Username;
@@ -13,6 +14,7 @@ The method runLogin calls all the methods in this class to encapsulate the login
 public class Login {
     Scanner input;
     Connection conn;
+    private int userID;
     MainMenu mainMenu = new MainMenu();
 
 
@@ -29,7 +31,7 @@ public class Login {
         System.out.println("Please enter your username:");
         String usernameInput = this.input.nextLine();
         Username username = new Username(usernameInput);
-        int userID = username.getUserID();
+        userID = username.getUserID();
         if(userID == -1){
             return;
         }
@@ -67,6 +69,8 @@ public class Login {
                 switch (inNum) {
                     case "1":
                         //call methods from DisplayAccounts
+                        DisplayAccounts displayAccounts = new DisplayAccounts(userID);
+                        displayAccounts.display();
                         break;
                     case "2":
                         //call methods from ShareAccount

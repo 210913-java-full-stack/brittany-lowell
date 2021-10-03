@@ -10,7 +10,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
     private Connection conn;
     MainMenu menu = new MainMenu();
 
-    public AccountsDAO(Connection conn) {
+    public AccountsDAO() {
         this.conn = menu.getConn();
     }
 
