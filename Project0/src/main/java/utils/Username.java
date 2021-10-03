@@ -1,120 +1,62 @@
 package utils;
 
 import daos.UsersDAO;
-import exceptions.UserNameIsNotValid;
-import exceptions.UserNameNotFound;
-import jdk.jfr.internal.tool.Main;
-import menus.MainMenu;
-import menus.Register;
+import exceptions.UsernameIsNotValid;
 import models.Users;
 import project0list.BLArrayList;
 
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.util.Scanner;
 
-/*
-        To take user input in as a StringBuffer, use the following lines of code.
-        StringBuffer s = new StringBuffer();
-        s.append(this.input.nextLine()); <= appends the console input to a StringBuffer
-         */
 
 /**
  * This class contains all methods pertaining to obtaining and verifying a username from the console.
  */
 public class Username {
-    private Connection conn;
     private int id;
-    StringBuffer username = new StringBuffer();
+    private String username;
     Users user = new Users();
-    Register register = new Register();
-    MainMenu menu = new MainMenu();
 
 
-    public Username() {
-        this.conn = menu.getConn();
-    }
-
-    public int getUserID(String string) {
-        usernameValid(string);
-        return usernameInDatabase();
+    public Username(String username) {
+        this.username = username;
     }
 
     /**
-     * This method gets the user input and checks if: The username is between 5 and 20 characters long; and if the
-     * username does not contain any special characters.
-     *
-     * @return If the username is valid, then this method will return a StringBuffer containing the user input.
+     * This method verifies the username and gets the user_id.
+     * @return Returns user_id stored in the database.
      */
-    private void usernameValid(String inputString) {
-
+    public int getUserID() {
         //Checks if inputted username is a valid username
+        int userId = -1;//Set userId equal to -1 so that I will know if something went wrong this the try below code.
         try {
-            boolean check = checkName(inputString, "username");
-        } catch (UserNameIsNotValid userNameIsNotValid) {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.viewMainMenu();
-            //userNameIsNotValid.printStackTrace();
+            user.checkName(username, "username");
+            userId = usernameInDatabase();
+        } catch (UsernameIsNotValid userNameIsNotValid) {
+            userNameIsNotValid.printStackTrace();
         }
-        username.append(inputString);
+        return userId;
     }
 
     /**
      * This method checks if the username is in the database.
-     *
      * @return Returns the index associated with the username
      */
-    private int usernameInDatabase() {
-        String usernameExist = username.toString();
+    public int usernameInDatabase() {
+        String usernameInput = username;
         BLArrayList<Users> userArray;
         UsersDAO usersDAO = new UsersDAO();
         userArray = usersDAO.getAllItems();
         for (int i = 0; i < userArray.len; i++) {
-            String string = userArray.get(i).getUsername();//gets the username column
-            if (string.equals(usernameExist)) {
+            String databaseUsername = userArray.get(i).getUsername();//gets the username column
+            if (databaseUsername.equals(usernameInput)) {
                 id = userArray.get(i).getId();//If id = anything other than -1 or -2, then the username is in the database.
                 return id;
+            } else {
+                id = -1;
             }
-            id = -1;
-        }
-        try {
-            if (id == -1) {
-                throw new UserNameNotFound();
-            }
-        } catch (UserNameNotFound userNameNotFound) {
-            register.runRegister();
         }
         return id;
     }
 
 
-    /**
-     * This method checks if the username contains any special characters and if it is between 5 and 20 characters long.
-     *
-     * @return Returns true if the username matches the requirements (5-20 characters and no special characters).
-     */
-    private boolean checkName(String inputString, String typeOfName) throws UserNameIsNotValid {
-        if (typeOfName.equals("username")) {
-            if (inputString.length() < 5 || inputString.length() > 20) {
-                throw new UserNameIsNotValid(inputString.length());
-            }
-        } else if (typeOfName.equals("first name") || typeOfName.equals("last name")) {
-            if (inputString.length() < 3 || inputString.length() > 30) {
-                throw new UserNameIsNotValid(inputString.length());
-            }
-            }
 
-        byte[] bytes = inputString.getBytes(StandardCharsets.US_ASCII);
-        /**
-         * System print here!!!!
-         */
-        System.out.println("Nested if statements work");
-
-        for (int i = 0; i < bytes.length; i++) {
-            if (bytes[i] >= 32 && bytes[i] <= 47) {
-                throw new UserNameIsNotValid(true);
-            }
-        }
-        return true;
-    }
 }
