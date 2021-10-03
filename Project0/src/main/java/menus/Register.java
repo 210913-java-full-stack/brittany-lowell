@@ -85,7 +85,7 @@ public class Register {
                 check = user.checkName(inputUsername, "username");
                 if (check) {
                     int id = username.usernameInDatabase();
-                    if (id == -1) {
+                    if (id == -1 || id == 0) {
                         run = false;
                     } else {
                         System.out.println("That username has been taken. Please choose a different username.");
@@ -102,7 +102,7 @@ public class Register {
         run = true;
         while(run) {
             System.out.println("Please enter a password.\nNOTE: Passwords MUST have one capital letter, one lowercase" +
-                    "letter, and one number.\n Passwords CANNOT contain any special characters.");
+                    "letter, and one number.\nPasswords CANNOT contain any special characters.");
             inputPassword = this.input.nextLine();
             try {
                 check = password.checkPassword(inputPassword);

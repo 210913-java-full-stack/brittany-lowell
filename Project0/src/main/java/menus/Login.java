@@ -1,5 +1,6 @@
 package menus;
 
+import accounts.CreateAccount;
 import accounts.DisplayAccounts;
 import exceptions.InvalidConsoleResponse;
 import utils.Password;
@@ -62,10 +63,10 @@ public class Login {
         while(innerMenu) {
 
             System.out.println("Account Menu\nPlease choose an option below:\n" +
-                    "1) Display Accounts\n2) Share An Account\n3) Move Funds\n4) Logout");
+                    "1) Display Accounts\n2) Create a new account\n3) Share An Account\n4) Move Funds\n5) Logout");
             String inNum = this.input.nextLine(); //inNum is used to t
 
-            if (inNum.equals("1") || inNum.equals("2") || inNum.equals("3") || inNum.equals("4")) {
+            if (inNum.equals("1") || inNum.equals("2") || inNum.equals("3") || inNum.equals("4") || inNum.equals("5")) {
                 switch (inNum) {
                     case "1":
                         //call methods from DisplayAccounts
@@ -73,12 +74,16 @@ public class Login {
                         displayAccounts.display();
                         break;
                     case "2":
+                        //call methods from CreateAccount
+                        CreateAccount createAccount = new CreateAccount(userID);
+                        createAccount.newAccount();
+                    case "3":
                         //call methods from ShareAccount
                         break;
-                    case "3":
+                    case "4":
                         //call methods from MoveFunds
                         break;
-                    case "4":
+                    case "5":
                         innerMenu = false; //Exits out to the main menu
                         break;
                 }

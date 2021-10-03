@@ -40,6 +40,11 @@ public class DisplayAccounts {
             int accountId = accountIds.get(i).getAccount_id();
 
             accounts = accountsDAO.getItem(accountId);
+            if(accounts == null){
+                System.out.println("You do not currently have any Checking or Savings accounts.\n" +
+                        "Please create a new account first.");
+                break;
+            }
             String accountType = accounts.getAccountType();
             double balance = accounts.getBalance();
             formatedBalance = accounts.formatBalance(balance);
