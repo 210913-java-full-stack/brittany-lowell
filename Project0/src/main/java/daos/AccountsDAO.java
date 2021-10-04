@@ -10,7 +10,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
     private Connection conn;
     MainMenu menu = new MainMenu();
 
-    public AccountsDAO(Connection conn) {
+    public AccountsDAO() {
         this.conn = menu.getConn();
     }
 
@@ -27,7 +27,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
      */
     @Override
     public void save(Accounts accounts) {
-        String sql = "SELECT * FROM accounts WHERE accounts_id = ?";//Prepares the string with the necessary SQL code.
+        String sql = "SELECT * FROM accounts WHERE account_id = ?";//Prepares the string with the necessary SQL code.
         try {
             PreparedStatement statement = this.conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
             statement.setInt(1, accounts.getId()); //Setting up the sql statement with the specified parameters.
@@ -41,7 +41,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
                 //Prepares the statement to be sent to the database.
                 PreparedStatement preparedUpdateStatement = this.conn.prepareStatement(updateStatement);
                 //The next three lines set up the sql statement with the specified parameters.
-                preparedUpdateStatement.setDouble(1,accounts.getBalance());
+                preparedUpdateStatement.setDouble(1, accounts.getBalance());
                 preparedUpdateStatement.setInt(2, accounts.getId());
                 //Updates the balance in the accounts table.
                 preparedUpdateStatement.executeUpdate();
@@ -137,7 +137,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
             Statement statement = this.conn.createStatement();
             ResultSet results = statement.executeQuery(sql);
             results.next();
-            maxAccountId = results.getInt("account_id");
+            maxAccountId = results.getInt(1);
             return maxAccountId;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -28,7 +28,6 @@ public class Password {
     public boolean verifyPassword(){
 
         boolean passwordMatch = passwordInDatabase();
-        System.out.println(passwordMatch);
 
         if(!passwordMatch){
             System.out.println("This password is incorrect.");

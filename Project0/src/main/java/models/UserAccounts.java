@@ -15,8 +15,8 @@ public class UserAccounts {
     public UserAccounts() {
     }
 
-    public UserAccounts(int id) {
-        this.id = id;
+    public UserAccounts(int account_id) {
+        this.account_id = account_id;
     }
 
     public UserAccounts(int id, int account_id) {
