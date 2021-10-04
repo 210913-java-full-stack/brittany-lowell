@@ -29,6 +29,7 @@ public class DisplayAccounts {
         BLArrayList<UserAccounts> accountIds = userAccountDAO.getItem(this.userId);
 
         System.out.println("\n============Accounts============");
+        System.out.println("User ID: " + this.userId);
         //Print out all the items in the list
         for(int i = 0; i < accountIds.len; i++){
             int accountId = accountIds.get(i).getAccount_id();

@@ -124,6 +124,7 @@ public class Register {
         userAccounts.setUser_id(userId);
         userAccountDAO.save(userAccounts);
         usersDAO.save(user);
+        System.out.println("Thank you for making an user account! Your user id is: " + userId);
 
     }
 }
