@@ -37,13 +37,12 @@ public class AccountsDAO implements DAOInterface<Accounts>{
             if(results.next()){
                 //If this row already exists, update it.
                 //Prepares the string with the necessary SQL code.
-                String updateStatement = "UPDATE accounts SET account_type = ?, balance = ? WHERE account_id = ?";
+                String updateStatement = "UPDATE accounts SET balance = ? WHERE account_id = ?";
                 //Prepares the statement to be sent to the database.
                 PreparedStatement preparedUpdateStatement = this.conn.prepareStatement(updateStatement);
                 //The next three lines set up the sql statement with the specified parameters.
-                preparedUpdateStatement.setString(1, accounts.getAccountType());
-                preparedUpdateStatement.setDouble(2, accounts.getBalance());
-                preparedUpdateStatement.setInt(3, accounts.getId());
+                preparedUpdateStatement.setDouble(1, accounts.getBalance());
+                preparedUpdateStatement.setInt(2, accounts.getId());
                 //Updates the balance in the accounts table.
                 preparedUpdateStatement.executeUpdate();
 

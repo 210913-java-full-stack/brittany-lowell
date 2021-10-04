@@ -77,11 +77,11 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
     }
 
     /**
-     * This method gets one row where junction_id is equal to junctionID.
-     * To obtain the desired row input the junction_id associate with that row when you call getItem.
+     * This method gets all account_ids that have the same user_id.
      *
-     * @return This method returns the row as an object of UserAccounts.
-     */
+     * @return This method returns an array list since there could be more than one account_id associated with a
+     * single user_id.
+     * */
 
     public BLArrayList<UserAccounts> getItem(int userId) {
         String sql = "SELECT account_id FROM user_accounts WHERE user_id = ?";
@@ -95,8 +95,10 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
             If the executeQuery was successful, the if, then, else block calls the UserAccounts constructor and
             saves the information in a Java friendly format.
              */
+            //Instantiate userAccounts with the data obtained from the database.
             while (results.next()) {
                 UserAccounts userAccounts = new UserAccounts(results.getInt("account_id"));
+                //Need to save the results to resultsArrayList since there could be multiple account_id's for one user/
                 resultsArrayList.add(userAccounts);
             }
             return resultsArrayList;
@@ -125,7 +127,7 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
             Statement statement = this.conn.createStatement();
 
             ResultSet results = statement.executeQuery(sql);
-
+            //Instantiate userAccounts with the data obtained from the database.
             while (results.next()) {
                 UserAccounts userAccounts = new UserAccounts(results.getInt("junction_id"),
                         results.getInt("user_id"), results.getInt("account_id"));
@@ -139,18 +141,29 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
         }
     }
 
+    /**
+     * This method gets the junction_id from the database where account_id = 0. It updates the row that
+     * was created after the user registered by obtaining that junction_id and calling userAccounts.setId(junction_id).
+     * @param userId This method needs the user input. If a Person A registers and Person B creates an account before
+     *               Person A, then Person B would not be able to make an account until Person A created their account.
+     *               Comparing the userId's and returning 0 if they don't match prevents this issue.
+     * @return
+     */
     public Integer getJunctionIdAfterRegistering(int userId){
         String sql = "SELECT junction_id FROM user_accounts WHERE account_id = 0";
         String sql2 = "SELECT user_id FROM user_accounts WHERE account_id = 0";
         int junctionId;
+        int databaseUserId = 0;
         try {
             Statement statement = this.conn.createStatement();
             ResultSet results = statement.executeQuery(sql);
             Statement statement2 = this.conn.createStatement();
             ResultSet results2 = statement.executeQuery(sql2);
-            results2.next();
-            int checkingUserId = results2.getInt(1);
-            if(checkingUserId == userId) {
+            if(results2.next()) {
+                databaseUserId = results2.getInt(1);
+                return databaseUserId;
+            }
+            if(databaseUserId == userId) {
                 if (results.next()) {
                     junctionId = results.getInt(1);
                     return junctionId;

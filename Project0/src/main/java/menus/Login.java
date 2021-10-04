@@ -36,6 +36,7 @@ public class Login {
         if(userID == -1){
             return;
         }
+
         //Password
         System.out.println("Please enter your password.");
         String passwordInput = this.input.nextLine();
@@ -52,7 +53,6 @@ public class Login {
     }
 
 
-
     /**
     *This method displays the second menu so that it can only be accessed if the user
      * logs in successfully.
@@ -63,11 +63,11 @@ public class Login {
         while(innerMenu) {
 
             System.out.println("Account Menu\nPlease choose an option below:\n" +
-                    "1) Display Accounts\n2) Create a new account\n3) Share An Account\n4) Move Funds\n5) Logout");
-            String inNum = this.input.nextLine(); //inNum is used to t
+                    "1) Display Accounts\n2) Create a new account\n3) Move Funds\n4) Share An Account\n5) Logout");
+            String userInput = this.input.nextLine();
 
-            if (inNum.equals("1") || inNum.equals("2") || inNum.equals("3") || inNum.equals("4") || inNum.equals("5")) {
-                switch (inNum) {
+            if (userInput.equals("1") || userInput.equals("2") || userInput.equals("3") || userInput.equals("4") || userInput.equals("5")) {
+                switch (userInput) {
                     case "1":
                         //call methods from DisplayAccounts
                         DisplayAccounts displayAccounts = new DisplayAccounts(userID);
@@ -77,11 +77,14 @@ public class Login {
                         //call methods from CreateAccount
                         CreateAccount createAccount = new CreateAccount(userID);
                         createAccount.newAccount();
+                        break;
                     case "3":
-                        //call methods from ShareAccount
+                        //call methods from MoveFunds
+                        MoveFunds moveFunds = new MoveFunds(userID);
+                        moveFunds.moveFunds();
                         break;
                     case "4":
-                        //call methods from MoveFunds
+                        //call methods from ShareAccount
                         break;
                     case "5":
                         innerMenu = false; //Exits out to the main menu

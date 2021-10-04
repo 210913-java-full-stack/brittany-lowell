@@ -3,6 +3,7 @@ package accounts;
 import daos.AccountsDAO;
 import daos.UserAccountDAO;
 import exceptions.InvalidConsoleResponse;
+import menus.Login;
 import menus.MainMenu;
 import models.Accounts;
 import models.UserAccounts;
@@ -14,14 +15,15 @@ public class CreateAccount {
     private int accountId;
     private int userId;
     MainMenu menu = new MainMenu();
+    Login login = new Login();
     Accounts accounts = new Accounts();
     AccountsDAO accountsDAO = new AccountsDAO();
     UserAccountDAO userAccountDAO = new UserAccountDAO();
     UserAccounts userAccounts = new UserAccounts();
 
-    public CreateAccount(int userId) {
+    public CreateAccount(int userID) {
         this.input = menu.getScanner();
-        this.userId = userId;
+        this.userId = userID;
     }
 
     /**
@@ -31,11 +33,11 @@ public class CreateAccount {
         boolean run = true;
         String inputAccountType;
         accountId = (accountsDAO.getAccountId(accounts) + 1);
-        int junctionId = userAccountDAO.getJunctionIdAfterRegistering(userId);
+        int junctionId = userAccountDAO.getJunctionIdAfterRegistering(this.userId);
         if(junctionId != 0) {
             userAccounts.setId(junctionId);
         }
-        userAccounts.setUser_id(userId);
+        userAccounts.setUser_id(this.userId);
         userAccounts.setAccount_id(accountId);
         accounts.setId(accountId);
         userAccountDAO.save(userAccounts);

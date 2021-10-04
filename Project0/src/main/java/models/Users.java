@@ -76,7 +76,7 @@ public class Users {
     }
 
     public String getPassword() {
-        return this.password.toString();
+        return this.password;
     }
 
     public void setPassword(String password) {
