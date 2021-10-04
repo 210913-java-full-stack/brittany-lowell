@@ -41,6 +41,8 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
                 //Prepares the string with the necessary SQL code. Only need to update the account_id since user_id
                 will already exist if the specified junction_id is in the database.
                 */
+
+                //CANNOT CHANGE THE updateStatement BECAUSE IT WILL ASSOCIATE AN ACCOUNT ID WITH THE WRONG USER!!!!!
                 String updateStatement = "UPDATE user_accounts SET user_id = ?, account_id = ? WHERE junction_id = ?";
                 //Prepares the statement to be sent to the database.
                 PreparedStatement preparedUpdateStatement = this.conn.prepareStatement(updateStatement);
@@ -137,17 +139,25 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
         }
     }
 
-    public Integer getJunctionIdAfterRegistering(){
+    public Integer getJunctionIdAfterRegistering(int userId){
         String sql = "SELECT junction_id FROM user_accounts WHERE account_id = 0";
+        String sql2 = "SELECT user_id FROM user_accounts WHERE account_id = 0";
         int junctionId;
         try {
             Statement statement = this.conn.createStatement();
             ResultSet results = statement.executeQuery(sql);
-
-            if(results.next()) {
-                junctionId = results.getInt(1);
-                return junctionId;
-            } else {
+            Statement statement2 = this.conn.createStatement();
+            ResultSet results2 = statement.executeQuery(sql2);
+            results2.next();
+            int checkingUserId = results2.getInt(1);
+            if(checkingUserId == userId) {
+                if (results.next()) {
+                    junctionId = results.getInt(1);
+                    return junctionId;
+                } else {
+                    return 0;
+                }
+            } else{
                 return 0;
             }
         } catch (SQLException throwables) {

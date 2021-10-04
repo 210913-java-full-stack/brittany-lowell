@@ -31,7 +31,7 @@ public class CreateAccount {
         boolean run = true;
         String inputAccountType;
         accountId = (accountsDAO.getAccountId(accounts) + 1);
-        int junctionId = userAccountDAO.getJunctionIdAfterRegistering();
+        int junctionId = userAccountDAO.getJunctionIdAfterRegistering(userId);
         if(junctionId != 0) {
             userAccounts.setId(junctionId);
         }
