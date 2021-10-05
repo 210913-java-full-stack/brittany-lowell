@@ -57,5 +57,8 @@ public class ShareAccount {
         //Adding the new user to the user_accounts table
         userAccounts.setAccount_id(accountID);
         userAccountDAO.save(userAccounts);
+
+        System.out.println("Successfully changed account " + accountID + " into a joint account.");
+
     }
 }
