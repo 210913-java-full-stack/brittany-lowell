@@ -16,22 +16,14 @@ import java.util.Scanner;
 public class ShareAccount {
     private Scanner input;
     private int userId;
-    private int checkAccountId;
     private boolean thisIsAValidName = true;
     private int accountID;
-    int inputtedUserID;
-    String newPersonFirstName;
-    String newPersonLastName;
 
 
-    Users users = new Users();
     UserAccounts userAccounts = new UserAccounts();
     MainMenu mainMenu = new MainMenu();
     VerifyOtherUsers verifyOtherUsers = new VerifyOtherUsers();
-    MoveFunds moveFunds = new MoveFunds();
-    UsersDAO usersDAO = new UsersDAO();
     UserAccountDAO userAccountDAO = new UserAccountDAO();
-    BLArrayList<UserAccounts> userAccountsBLArrayList = new BLArrayList<>();
 
     public ShareAccount(int userID) {
         this.input = mainMenu.getScanner();
@@ -43,7 +35,7 @@ public class ShareAccount {
         System.out.println("Which account would you like to share with another user?");
         DisplayAccounts displayAccounts = new DisplayAccounts(this.userId);
         displayAccounts.display();
-        System.out.println("Please type in the account number next to the account you would like to turn into" +
+        System.out.println("Please type in the account number next to the account you would like to turn into " +
                 "a joint account.");
         accountID = this.input.nextInt();
 
@@ -57,8 +49,5 @@ public class ShareAccount {
         //Adding the new user to the user_accounts table
         userAccounts.setAccount_id(accountID);
         userAccountDAO.save(userAccounts);
-
-        System.out.println("Successfully changed account " + accountID + " into a joint account.");
-
     }
 }

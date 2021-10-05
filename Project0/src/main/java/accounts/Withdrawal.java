@@ -71,6 +71,14 @@ public class Withdrawal {
 
         formattedWithdrawalAmount = accounts.formatBalance(withdrawalAmount);
         newBalance = accounts.getBalance() - withdrawalAmount;
+
+        if(Double.toString(newBalance).length() > 11){
+            System.out.println("The withdrawal amount is too large.\nYou cannot withdrawal any amount that has more " +
+                    "than 8 digits left of the decimal point and more than two digits to the right of the " +
+                    "decimal point.\n");
+            return;
+        }
+
         StringBuffer formattedNewBalance = accounts.formatBalance(accounts.getBalance());
         boolean doIHaveTheFunds = moveFunds.enoughFunds(newBalance,accountID,formattedNewBalance);
         if(!doIHaveTheFunds) {

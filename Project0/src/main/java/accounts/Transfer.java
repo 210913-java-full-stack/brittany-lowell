@@ -101,6 +101,13 @@ public class Transfer {
         formattedTransferAmount = accounts.formatBalance(transferAmount);
         newBalanceForFirstAccount = accounts.getBalance() - transferAmount;
 
+        if(Double.toString(newBalanceForFirstAccount).length() > 11){
+            System.out.println("The deposit amount is too large.\nYou cannot deposit any amount that has more " +
+                    "than 8 digits left of the decimal point and more than two digits to the right of the " +
+                    "decimal point.");
+            return;
+        }
+
         StringBuffer formattedNewBalance = accounts.formatBalance(accounts.getBalance());
         boolean doIHaveTheFunds = moveFunds.enoughFunds(newBalanceForFirstAccount,accountID,formattedNewBalance);
         if(!doIHaveTheFunds) {
@@ -110,6 +117,14 @@ public class Transfer {
         accountsDAO.save(accounts);
 
         newBalanceForSecondAccount = secondAccount.getBalance() + transferAmount;
+
+        if(Double.toString(newBalanceForSecondAccount).length() > 11){
+            System.out.println("The deposit amount is too large.\nYou cannot deposit any amount that has more " +
+                    "than 8 digits left of the decimal point and more than two digits to the right of the " +
+                    "decimal point.\n");
+            return;
+        }
+
         secondAccount.setBalance(newBalanceForSecondAccount);
         accountsDAO.save(secondAccount);
 

@@ -172,14 +172,11 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
                     } else {
                         return 0;
                     }
-                } else{
-                    return 0;
                 }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return null;
         }
-        return null;
+        return 0;
     }
 }
