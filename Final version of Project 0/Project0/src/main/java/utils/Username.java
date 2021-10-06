@@ -55,13 +55,6 @@ public class Username {
                 return id;
             }
         }
-        id = -1;
-        try{
-            throw new UserNameNotFound();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return id;
+        return -1;
     }
 }

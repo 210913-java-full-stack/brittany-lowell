@@ -4,6 +4,7 @@ import accounts.CreateAccount;
 import accounts.DisplayAccounts;
 import accounts.ShareAccount;
 import exceptions.InvalidConsoleResponse;
+import exceptions.UserNameNotFound;
 import utils.Password;
 import utils.Username;
 
@@ -37,6 +38,11 @@ public class Login {
         Username username = new Username(usernameInput);
         userID = username.getUserID();
         if(userID == -1){
+            try{
+                throw new UserNameNotFound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return;
         }
 
