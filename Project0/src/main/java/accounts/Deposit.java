@@ -91,7 +91,9 @@ public class Deposit {
 
 
         newBalance = accounts.getBalance() + depositAmount;
-        if(Double.toString(newBalance).length() > 11){
+
+        //Checks if the deposit amount is within the limits set in the database
+        if(Double.toString(depositAmount).length() > 11){
             System.out.println("The deposit amount is too large.\nYou cannot deposit any amount that has more " +
                     "than 8 digits left of the decimal point and more than two digits to the right of the " +
                     "decimal point.\n");
