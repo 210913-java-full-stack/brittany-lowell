@@ -14,6 +14,5 @@ public interface UserAccountDAOInterface<E> {
     //Method that queries data from the database and fills the empty model object.
     BLArrayList<E> getItem(int id) throws SQLException;
 
-    BLArrayList<E> getAllItems() throws SQLException;
 
 }

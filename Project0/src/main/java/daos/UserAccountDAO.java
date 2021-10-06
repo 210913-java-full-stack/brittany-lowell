@@ -7,19 +7,12 @@ import project0list.BLArrayList;
 import java.sql.*;
 
 public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
-    private Connection conn;
+    Connection conn;
     MainMenu menu = new MainMenu();
 
     public UserAccountDAO() {
         this.conn = menu.getConn();
     }
-
-
-    /*
-       First we need to use a SQL SELECT statement to get the row that we are looking for using the
-       PRIMARY KEY of the table. If id = 1 and the table is empty, then this method will INSERT the first row since
-       it is guarantied that the item is not already in the table.
-       */
 
     /**
      * This method first check whether a row already exists in the database. If it does exist, then this method
@@ -70,8 +63,8 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
                 userAccounts.setId(resultset.getInt("junction_id") + 1);
                 //Can also identify the column by index 1.
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -88,7 +81,7 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
         String sql = "SELECT account_id FROM user_accounts WHERE user_id = ?";
         BLArrayList<UserAccounts> resultsArrayList = new BLArrayList<>();
         try {
-            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
+            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare an SQL string.
             statement.setInt(1, userId);
 
             ResultSet results = statement.executeQuery();
@@ -104,40 +97,8 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
             }
             return resultsArrayList;
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * This method gets the entire user_accounts table and instantiates it in a BLArrayList object containing
-     * UserAccounts objects for each row in the table.
-     *
-     * @return Returns the array list containing the UserAccounts objects.
-     */
-    @Override
-    public BLArrayList<UserAccounts> getAllItems() {
-        String sql = "SELECT * FROM user_accounts";
-        try {
-            BLArrayList<UserAccounts> resultsArrayList = new BLArrayList<>();
-            /*
-            Do not need to prepare a statement if there are no parameters to enter. You just need to create a
-            SQL statement.
-             */
-            Statement statement = this.conn.createStatement();
-
-            ResultSet results = statement.executeQuery(sql);
-            //Instantiate userAccounts with the data obtained from the database.
-            while (results.next()) {
-                UserAccounts userAccounts = new UserAccounts(results.getInt("junction_id"),
-                        results.getInt("user_id"), results.getInt("account_id"));
-                resultsArrayList.add(userAccounts);
-            }
-
-            return resultsArrayList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
@@ -148,9 +109,10 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
      * @param userId This method needs the user input. If a Person A registers and Person B creates an account before
      *               Person A, then Person B would not be able to make an account until Person A created their account.
      *               Comparing the userId's and returning 0 if they don't match prevents this issue.
-     * @return Returns the junction ID associated with an account_id that = 0
+     * @return Returns the junction ID associated with an account_id that equals 0.
      */
     public Integer getJunctionIdAfterRegistering(int userId){
+        //Gets the junction id and user id where that account id = 0.
         String sql = "SELECT junction_id FROM user_accounts WHERE account_id = 0";
         String sql2 = "SELECT user_id FROM user_accounts WHERE account_id = 0";
         int junctionId;
@@ -160,23 +122,24 @@ public class UserAccountDAO implements UserAccountDAOInterface<UserAccounts> {
             ResultSet results = statement.executeQuery(sql);
             Statement statement2 = this.conn.createStatement();
             ResultSet results2 = statement2.executeQuery(sql2);
+            //If the cursor is able to move to the next line, then get the user ID
             if(results2.next()) {
                 databaseUserId = results2.getInt(1);
-                System.out.println("this is the user id in the database: " + databaseUserId);
 
+                //If the user ID's match, get the junction ID
                 if(databaseUserId == userId) {
+                    //If the cursor is able to move to the next line, return the junction id
                     if (results.next()) {
                         junctionId = results.getInt(1);
-                        System.out.println("this is the junctionID: " + junctionId);
                         return junctionId;
                     } else {
-                        return 0;
+                        return 0;//If no junction id is obtained, then there are no rows with an account ID = 0;
                     }
                 }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
-        return 0;
+        return 0; //returns 0 if there is no user ID associated with an account id = 0.
     }
 }

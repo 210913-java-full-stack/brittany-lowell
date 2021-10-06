@@ -54,7 +54,7 @@ public class Deposit {
 
         //Gets the largest account ID currently in the database and check to make sure the inputted account is
         //not larger than the largest account number.
-        int currentMaxAccountId = accountsDAO.getAccountId(accounts);
+        int currentMaxAccountId = accountsDAO.getAccountId();
         if(currentMaxAccountId < accountID) {
             System.out.println("That account does not exist! Please review your accounts to obtain the desired" +
                     "account number.");

@@ -1,7 +1,5 @@
 package exceptions;
 
-import utils.Password;
-
 public class PasswordIsNotValid extends Exception{
 
     public PasswordIsNotValid(int length){

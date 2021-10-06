@@ -58,7 +58,7 @@ public class Transfer {
         }
 
         //Prevents the user from inputting an account number that does not exist.
-        int currentMaxAccountId = accountsDAO.getAccountId(accounts);
+        int currentMaxAccountId = accountsDAO.getAccountId();
         if(currentMaxAccountId < accountID) {
             System.out.println("That account does not exist! Please review your accounts to obtain the desired" +
                     "account number.");

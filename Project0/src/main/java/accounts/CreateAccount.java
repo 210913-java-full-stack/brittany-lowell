@@ -37,7 +37,7 @@ public class CreateAccount {
         //has not created an account yet.
         boolean run = true;
         String inputAccountType;
-        accountId = (accountsDAO.getAccountId(accounts) + 1);
+        accountId = (accountsDAO.getAccountId() + 1);
         int junctionId = userAccountDAO.getJunctionIdAfterRegistering(this.userId);
         //If a row does need to be updated and the current user's ID matches the user ID in the row, then the
         //junction id will be changed so that row can be updated.

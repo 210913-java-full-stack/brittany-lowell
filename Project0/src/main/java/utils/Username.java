@@ -1,6 +1,7 @@
 package utils;
 
 import daos.UsersDAO;
+import exceptions.UserNameNotFound;
 import exceptions.UsernameIsNotValid;
 import models.Users;
 import project0list.BLArrayList;
@@ -11,8 +12,7 @@ import project0list.BLArrayList;
  * This class contains all methods pertaining to obtaining and verifying a username from the console.
  */
 public class Username {
-    private int id;
-    private String username;
+    String username;
     Users user = new Users();
 
 
@@ -26,7 +26,8 @@ public class Username {
      */
     public int getUserID() {
         //Checks if inputted username is a valid username
-        int userId = -1;//Set userId equal to -1 so that I will know if something went wrong this the try below code.
+        //Set userId equal to -1 so that I will know if something went wrong this the code in the try block.
+        int userId = -1;
         try {
             user.checkName(this.username, "username");
             userId = usernameInDatabase();
@@ -44,18 +45,23 @@ public class Username {
         BLArrayList<Users> userArray;
         UsersDAO usersDAO = new UsersDAO();
         userArray = usersDAO.getAllItems();
+        int id;
         for (int i = 0; i < userArray.len; i++) {
-            String databaseUsername = userArray.get(i).getUsername();//gets the username column
+            //Gets the username column
+            String databaseUsername = userArray.get(i).getUsername();
             if (databaseUsername.equals(this.username)) {
-                id = userArray.get(i).getId();//If id = anything other than -1 or -2, then the username is in the database.
+                //If id = anything other than -1, then the username is in the database.
+                id = userArray.get(i).getId();
                 return id;
-            } else {
-                id = -1;
             }
         }
+        id = -1;
+        try{
+            throw new UserNameNotFound();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return id;
     }
-
-
-
 }

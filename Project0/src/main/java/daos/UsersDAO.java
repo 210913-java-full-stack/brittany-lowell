@@ -1,26 +1,19 @@
 package daos;
 
-import jdk.jfr.internal.tool.Main;
 import menus.MainMenu;
-import models.Accounts;
 import models.Users;
 import project0list.BLArrayList;
 
 import java.sql.*;
 
 public class UsersDAO implements DAOInterface<Users>{
-    private Connection conn;
+    Connection conn;
     MainMenu menu = new MainMenu();
 
     public UsersDAO() {
         this.conn = menu.getConn();
     }
 
-   /*
-       First we need to use a SQL SELECT statement to get the row that we are looking for using the
-       PRIMARY KEY of the table. If id = 1 and the table is empty, then this method will INSERT the first row since
-       it is guarantied that the item is not already in the table.
-       */
 
     /**
      *This method first check whether a row already exists in the database. If it does exist, then this method
@@ -64,8 +57,8 @@ public class UsersDAO implements DAOInterface<Users>{
                 //user_id is set in the UserAccountDAO class
                 preparedInsertStatement.executeUpdate();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -78,7 +71,7 @@ public class UsersDAO implements DAOInterface<Users>{
     public Users getItem(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         try {
-            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
+            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare an SQL string.
             statement.setInt(1, userId);
 
             ResultSet results = statement.executeQuery();
@@ -94,10 +87,10 @@ public class UsersDAO implements DAOInterface<Users>{
                 return null;
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
+        return null;
     }
     /**
      *This method gets the entire users table and instantiates it in a BLArrayList object containing
@@ -110,7 +103,7 @@ public class UsersDAO implements DAOInterface<Users>{
         try {
             BLArrayList<Users> resultsArrayList = new BLArrayList<>();
             /*
-            Do not need to prepare a statement if there are no parameters to enter. You just need to create a
+            Do not need to prepare a statement if there are no parameters to enter. You just need to create an
             SQL statement.
              */
             Statement statement = this.conn.createStatement();
@@ -125,10 +118,10 @@ public class UsersDAO implements DAOInterface<Users>{
             }
 
             return resultsArrayList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -136,6 +129,7 @@ public class UsersDAO implements DAOInterface<Users>{
      * @return Returns the largest user_id currently in the table.
      */
     public Integer getUserId(){
+        //Get the largest user ID in the users table
         String sql = "SELECT MAX(user_id) FROM users";
         int maxUserId;
         try {
@@ -146,7 +140,7 @@ public class UsersDAO implements DAOInterface<Users>{
             return maxUserId;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }

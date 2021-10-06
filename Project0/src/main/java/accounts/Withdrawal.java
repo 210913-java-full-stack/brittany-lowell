@@ -52,7 +52,7 @@ public class Withdrawal {
         }
 
         //Prevents user from withdrawing funds from an account that does not exist
-        int currentMaxAccountId = accountsDAO.getAccountId(accounts);
+        int currentMaxAccountId = accountsDAO.getAccountId();
         if(currentMaxAccountId < accountID) {
             System.out.println("That account does not exist! Please review your accounts to obtain the desired" +
                     "account number.");

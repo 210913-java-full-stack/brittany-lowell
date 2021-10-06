@@ -7,19 +7,16 @@ import project0list.BLArrayList;
 import java.sql.*;
 
 public class AccountsDAO implements DAOInterface<Accounts>{
-    private Connection conn;
+    Connection conn;
     MainMenu menu = new MainMenu();
 
+    /**
+     * Constructor for the AccountsDao class
+     */
     public AccountsDAO() {
         this.conn = menu.getConn();
     }
 
-
-    /*
-       First we need to use a SQL SELECT statement to get the row that we are looking for using the
-       PRIMARY KEY of the table. If id = 1 and the table is empty, then this method will INSERT the first row since
-       it is guarantied that the item is not already in the table.
-       */
 
     /**
      *This method first check whether a row already exists in the database. If it does exist, then this method
@@ -32,7 +29,7 @@ public class AccountsDAO implements DAOInterface<Accounts>{
             PreparedStatement statement = this.conn.prepareStatement(sql);//Prepares the statement to be sent to the database.
             statement.setInt(1, accounts.getId()); //Setting up the sql statement with the specified parameters.
 
-            ResultSet results = statement.executeQuery();
+            ResultSet results = statement.executeQuery();//Executes the query
 
             if(results.next()){
                 //If this row already exists, update it.
@@ -61,20 +58,19 @@ public class AccountsDAO implements DAOInterface<Accounts>{
                 preparedInsertStatement.executeUpdate();
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
     }
     /**
-     * This method gets one row where account_id is equal to accountId.
-     * To obtain the desired row input the account_id associate with that row when you call getItem.
+     * This method gets one row where account_id is equal to the given accountId.
      * @return This method instantiates an Accounts object and initializes it with data in this row.
      */
     @Override
     public Accounts getItem(int accountId) {
         String sql = "SELECT * FROM accounts WHERE account_id = ?";
         try {
-            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare a SQL string.
+            PreparedStatement statement = this.conn.prepareStatement(sql); //Use this statement to prepare an SQL string.
             statement.setInt(1, accountId);
 
             ResultSet results = statement.executeQuery();
@@ -89,8 +85,8 @@ public class AccountsDAO implements DAOInterface<Accounts>{
                 return null;
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
@@ -106,13 +102,14 @@ public class AccountsDAO implements DAOInterface<Accounts>{
         try {
             BLArrayList<Accounts> resultsArrayList = new BLArrayList<>();
             /*
-            Do not need to prepare a statement if there are no parameters to enter. You just need to create a
+            Do not need to prepare a statement if there are no parameters to enter. You just need to create an
             SQL statement.
              */
-            Statement statement = this.conn.createStatement();
+            Statement statement = this.conn.createStatement(); //Creating SQL statement
 
-            ResultSet results = statement.executeQuery(sql);
+            ResultSet results = statement.executeQuery(sql);//Executing the SQL query on the sql string above
 
+            //Saves the information from the database to the accounts object.
             while(results.next()) {
                 Accounts accounts = new Accounts(results.getInt("account_id"),
                         results.getString("account_type"), results.getDouble("balance"));
@@ -120,8 +117,8 @@ public class AccountsDAO implements DAOInterface<Accounts>{
             }
 
             return resultsArrayList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
             return null;
         }
     }
@@ -130,8 +127,8 @@ public class AccountsDAO implements DAOInterface<Accounts>{
      *This method gets the account_id from the Accounts model and checks the database for the largest account_id in the table.
      * @return Returns the largest account_id currently in the table.
      */
-    public Integer getAccountId(Accounts accounts){
-        String sql = "SELECT MAX(account_id) FROM accounts";
+    public Integer getAccountId(){
+        String sql = "SELECT MAX(account_id) FROM accounts";//Gets the largest account id
         int maxAccountId;
         try {
             Statement statement = this.conn.createStatement();
