@@ -30,7 +30,7 @@ public class Connections {
                 props.load(connectionProperties);
 
                 //"jdbc:mariadb://hostname:port/databaseName?user=username&password=password"
-                //This gets and concats the key value pairs into the above format ^
+                //This gets and concat the key value pairs into the above format ^
                 String connString = "jdbc:mariadb://" +
                         props.getProperty("hostname") + ":" +
                         props.getProperty("port") + "/" +

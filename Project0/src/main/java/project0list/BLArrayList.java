@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class BLArrayList<E> implements CustomListInterface<E>{
     private int size; //size of the array
-    public int len; //This variable allows the user to access size outside of this class
+    public int len; //This variable allows the user to access size outside this class
     private static final int s = 2; // Default length of the array
     Object[] a = new Object[s]; //Creating an array
 
@@ -34,7 +34,7 @@ This method adds one element at the end of the array
 
     }
 /*
-This method adds an element at a specific index and moves all of the other elements to the right
+This method adds an element at a specific index and moves all other elements to the right
 Ex: a[1] becomes a[2]
  */
     @Override

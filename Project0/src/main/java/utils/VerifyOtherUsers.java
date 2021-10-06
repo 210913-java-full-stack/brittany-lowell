@@ -12,7 +12,7 @@ import project0list.BLArrayList;
 import java.util.Scanner;
 
 public class VerifyOtherUsers {
-    private Scanner input;
+    Scanner input;
     int inputtedUserID;
 
 
@@ -28,6 +28,11 @@ public class VerifyOtherUsers {
         this.input = mainMenu.getScanner();
     }
 
+    /**
+     * This method verifies that the provided user information is correct and matches the information in the database
+     * @param newUserAccount Needs a UserAccounts object
+     * @return Returns true if the user matches the info in the database
+     */
     public boolean verifyOtherUser(UserAccounts newUserAccount) {
         getUserInfo(newUserAccount);
         inputtedUserID = Integer.parseInt(newUserInfo.get(2));
@@ -52,12 +57,16 @@ public class VerifyOtherUsers {
         return true;
     }
 
-
+    /**
+     * Gets the information about the other user.
+     * @param newUserAccount Requires a UserAccounts object
+     */
     public void getUserInfo(UserAccounts newUserAccount){
         //Get the other user's first and last name to validate that the correct userID was entered
         //Getting the first name
         System.out.println("Please enter the first name of the person you would like to add to this account.");
         String firstName = this.input.nextLine();
+
         //Checking if the first name is a valid name
         boolean thisIsAValidName;
         try {
@@ -73,6 +82,7 @@ public class VerifyOtherUsers {
         //Getting the last name
         System.out.println("Please enter the last name of the person who you would like to share this account with.");
         String lastName = this.input.nextLine();
+
         //Checking if the last name is a valid name
         try {
             thisIsAValidName = users.checkName(lastName, "name");
@@ -94,11 +104,14 @@ public class VerifyOtherUsers {
             return;
         }
 
+        //Prevents the user from entering an id that does not exist
         int maxUserId = usersDAO.getUserId();
         if (inputtedUserID > maxUserId) {
             System.out.println("That userID does not exist! Please try again!");
             return;
         }
+
+        //Adds the first name, last name, and the userID to the custom array list
         newUserAccount.setUser_id(newUserID);
         String newStringUserID = Integer.toString(newUserID);
         newUserInfo.add(firstName);
@@ -106,6 +119,12 @@ public class VerifyOtherUsers {
         newUserInfo.add(newStringUserID);
     }
 
+    /**
+     * Verifies that the user, who is currently logged in, owns the given account
+     * @param userID Requires the current user's user ID
+     * @param accountID Requires the ID of the account the user chose.
+     * @return Returns true if the account belongs to the current user
+     */
     public boolean verifyAccountIdMatchesCurrentUser(int userID, int accountID) {
         userAccountsBLArrayList = userAccountDAO.getItem(userID);
 

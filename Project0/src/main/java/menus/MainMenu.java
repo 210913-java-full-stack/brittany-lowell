@@ -34,7 +34,8 @@ public class MainMenu {
     public void viewMainMenu() {
         System.out.println("Homepage\nPlease choose an option below:\n" +
                 "1) Login\n2) Register\n3) Exit App");
-        String inNum = input.nextLine(); //Takes the user input on the next line and stores it in inNum.
+        //Takes the user input on the next line and stores it in inNum.
+        String inNum = input.nextLine();
         //This if, then, else statement stops the user from inputting invalid values.
         if (inNum.equals("1") || inNum.equals("2") || inNum.equals("3")) {
 
@@ -45,19 +46,19 @@ public class MainMenu {
                     login.runLogin(); //Abstracts the inner workings of the Login class
                     return;
                 case "2":
-                    //go to the register screen
+                    //Go to the register screen
                     Register register = new Register();
-                    register.runRegister();
+                    register.runRegister(); //Abstracts the inner workings of the Register class
                     return;
                 case "3":
                     //Exiting the app
                     setRunning(false);
                     try {
                         conn.close();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                    } catch (SQLException throwable) {
+                        throwable.printStackTrace();
                     }
-                    break; //Probably not necessary, but I don't feel comfortable leaving this open to fall through.
+                    break;
             }
         } else {
             try {
@@ -70,7 +71,7 @@ public class MainMenu {
 
     }
 
-    //Boolean version of a getter
+    //Getters and Setters
     public boolean isRunning() {
         return running;
     }

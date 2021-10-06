@@ -37,6 +37,10 @@ public class Password {
         }
     }
 
+    /**
+     * This method checks if the password is in the database
+     * @return Returns true if the password is in the database
+     */
     private boolean passwordInDatabase() {
         String passwordMatches = password;
         UsersDAO usersDAO = new UsersDAO();
@@ -53,6 +57,7 @@ public class Password {
      */
     public boolean checkPassword(String inputString) throws PasswordIsNotValid {
         boolean check;
+        //Checks the length
         if (inputString.length() < 8 || inputString.length() > 20) {
             throw new PasswordIsNotValid(inputString.length());
         }

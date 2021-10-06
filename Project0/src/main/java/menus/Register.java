@@ -15,7 +15,7 @@ import java.util.Scanner;
  * and then calls the runLogin method to start the login process.
  */
 public class Register {
-    private Scanner input;
+    Scanner input;
     Password password = new Password();
     MainMenu mainMenu = new MainMenu();
     UsersDAO usersDAO = new UsersDAO();

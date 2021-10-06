@@ -1,7 +1,5 @@
 package models;
 
-import daos.AccountsDAO;
-
 /**
  * This model class allows the user to access the information stored in the user_account table.
  * The combination of the public methods and the private variables restricts the access the user has to these
@@ -19,16 +17,7 @@ public class UserAccounts {
         this.account_id = account_id;
     }
 
-    public UserAccounts(int id, int account_id) {
-        this.id = id;
-        this.account_id = account_id;
-    }
-
-    public UserAccounts(int id, int account_id, int user_id) {
-        this.id = id;
-        this.account_id = account_id;
-        this.user_id = user_id;
-    }
+    //Getters and setters
 
     public int getId() {
         return id;

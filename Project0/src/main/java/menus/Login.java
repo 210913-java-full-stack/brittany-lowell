@@ -20,7 +20,9 @@ public class Login {
     MainMenu mainMenu = new MainMenu();
 
 
-    //Constructor for the Login class
+    /**
+     * Constructor for the Login class
+     */
     public Login() {
         this.input = mainMenu.getScanner();
         this.conn = mainMenu.getConn();
@@ -29,7 +31,7 @@ public class Login {
     *Method that calls all Login methods.
      */
     public void runLogin(){
-        //Username
+        //Gets Username
         System.out.println("Please enter your username:");
         String usernameInput = this.input.nextLine();
         Username username = new Username(usernameInput);
@@ -38,7 +40,7 @@ public class Login {
             return;
         }
 
-        //Password
+        //Gets Password
         System.out.println("Please enter your password.");
         String passwordInput = this.input.nextLine();
         Password password = new Password(passwordInput,userID);
@@ -72,34 +74,39 @@ public class Login {
                     case "1":
                         //call methods from DisplayAccounts
                         DisplayAccounts displayAccounts = new DisplayAccounts(userID);
+                        //Abstracts the inner workings of the DisplayAccounts class
                         displayAccounts.display();
                         break;
                     case "2":
                         //call methods from CreateAccount
                         CreateAccount createAccount = new CreateAccount(userID);
+                        //Abstracts the inner workings of the CreateAccount class
                         createAccount.newAccount();
                         break;
                     case "3":
                         //call methods from MoveFunds
                         MoveFunds moveFunds = new MoveFunds(userID);
+                        //Abstracts the inner workings of the MoveFunds class
                         moveFunds.fundMenu();
                         break;
                     case "4":
                         //call methods from ShareAccount
                         ShareAccount shareAccount = new ShareAccount(userID);
+                        //Abstracts the inner workings of the ShareAccount class
                         shareAccount.jointAccount();
                         break;
                     case "5":
                         innerMenu = false; //Exits to the main menu
                         break;
                 }
-            } else { //This statement gives the user an error and then sends them back to the "Account menu"
+            } else {
+                //This statement gives the user an error and then sends them back to the "Account menu"
                 try {
                     throw new InvalidConsoleResponse("This menu only accepts the responses: 1, 2, 3, or 4.");
                 } catch (InvalidConsoleResponse invalidConsoleResponse) {
                     invalidConsoleResponse.printStackTrace();
-                    System.out.println("Please type 1, 2, 3, or 4 as an integer.\n");
                 }
+                System.out.println("Please type 1, 2, 3, or 4 as an integer.\n");
             }
         }
     }

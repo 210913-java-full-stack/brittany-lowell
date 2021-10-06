@@ -11,30 +11,38 @@ public class Accounts {
     private int id;
     private String accountType;
     private double balance;
-    private StringBuffer formattedBalance;
 
     public Accounts() {
-    }
-
-    public Accounts(int id) {
-        this.id = id;
-    }
-
-    public Accounts(int id, double balance) {
-        this.id = id;
-        this.balance = balance;
-        //May need to go back to this if formatting the balance here does not work.
-        //this.balance = balance;
     }
 
     public Accounts(int id, String accountType, double balance) {
         this.id = id;
         this.accountType = accountType;
         this.balance = balance;
-        //May need to go back to this if formatting the balance here does not work.
-        //this.balance = balance;
     }
 
+    /**
+     * This method formats the balance from a double to a more human-readable format.
+     * @param balance Requires a double that represents the balance
+     * @return Returns the formatted balance
+     */
+    public StringBuffer formatBalance(double balance) {
+        /*
+        The NumberFormat class contains methods that allow you to add commas to a number. NumberFormat uses a grouping
+        size of 3 by default starting to the right of the decimal place.
+         */
+        StringBuffer displayBalance = new StringBuffer(); //Creating a StringBuffer
+        displayBalance.append("$"); //Appending the $ at the beginning of the StringBuffer.
+        //Gets the instance of the NumberFormat class by calling NumberFormat.getInstance().
+        NumberFormat currencyFormat = NumberFormat.getInstance();
+        //Enables grouping which is set to 3 by default.
+        currencyFormat.setGroupingUsed(true);
+        //Append the formatted balance to the displayBalance StringBuffer.
+        displayBalance.append(currencyFormat.format(balance));
+        return displayBalance;
+    }
+
+    //Getters and setters
     public int getId() {
         return id;
     }
@@ -59,20 +67,5 @@ public class Accounts {
         this.balance = balance;
     }
 
-    public StringBuffer formatBalance(double balance) {
-        /*
-        The NumberFormat class contains methods that allow you to add commas to a number. NumberFormat uses a grouping
-        size of 3 by default starting to the right of the decimal place.
-         */
-        StringBuffer displayBalance = new StringBuffer(); //Creating a StringBuffer
-        displayBalance.append("$"); //Appending the $ at the beginning of the StringBuffer.
-        //Gets the instance of the NumberFormat class by calling NumberFormat.getInstance().
-        NumberFormat currencyFormat = NumberFormat.getInstance();
-        //Enables grouping which is set to 3 by default.
-        currencyFormat.setGroupingUsed(true);
-        //Append the formatted balance to the displayBalance StringBuffer.
-        displayBalance.append(currencyFormat.format(balance));
-        return displayBalance;
-    }
 }
 

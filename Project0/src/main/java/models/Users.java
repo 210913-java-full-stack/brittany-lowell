@@ -19,20 +19,6 @@ public class Users {
     public Users() {
     }
 
-    public Users(int id) {
-        this.id = id;
-    }
-
-    public Users(int id, String username, String password) {
-        /*
-        Convert a String to a StringBuffer using the append() method.
-        You have to create a new StringBuffer object first before using the following line of code.
-        ie: stringBuffer.append(string);
-         */
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
 
     public Users(int id, String firstName, String lastName, String username, String password) {
 
@@ -90,20 +76,22 @@ public class Users {
      * long.
      * Finally, if the username, first name, or last name meets the size requirements, this method then checks if there
      * are any special characters in the username.
-     *
      * @return Returns true if the name matches the requirements
      */
     public boolean checkName(String inputString, String typeOfName) throws UsernameIsNotValid {
+        //Turns the string into a byte array and replaces the characters with their associated ASCII values
         byte[] bytes = inputString.getBytes(StandardCharsets.US_ASCII);
+        //Checks the length of the username
         if (typeOfName.equals("username")) {
             if (inputString.length() < 5 || inputString.length() > 20) {
                 throw new UsernameIsNotValid(inputString.length());
             }
         } else if (typeOfName.equals("name")) {
+            //Checks the length of the name
             if (inputString.length() < 3 || inputString.length() > 30) {
                 System.out.println("Names must be between 3 and 30 characters long.");
                 return false;
-            }
+            } //Checks if first character in the name string is a capital letter
             if (bytes[0] <= 65 || bytes[0] >= 90) {
                 System.out.println("Names must start with a capital letter.");
                 return false;
